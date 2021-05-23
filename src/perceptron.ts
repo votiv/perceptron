@@ -12,12 +12,12 @@ export const perceptron: () => [train: TrainFunctionType, guess: GuessFunctionTy
   /**
    * Generate random weights from [-1, 1) range
    */
-  let weights: Array<number> = [...Array<number>(2)].map(() => (Math.round(randomInRange(-1, 1) * 100) / 100))
+  let weights: Array<number> = [...Array<number>(3)].map(() => (Math.round(randomInRange(-1, 1) * 100) / 100))
 
   /**
    * Learning rate
    */
-  const learningRate = 1
+  const learningRate = .001
 
   /**
    * Sums up the weighted inputs and applies the activation function

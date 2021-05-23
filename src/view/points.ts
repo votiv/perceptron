@@ -13,7 +13,8 @@ export const points: (num: number, divider: number) => PointType[] = (num, divid
   return xCoords
     .map((x, i) => ({
       x,
-      y: yCoords[i]
+      y: yCoords[i],
+      bias: 1
     }))
     .map(p => ({
       ...p,

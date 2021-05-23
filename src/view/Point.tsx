@@ -6,13 +6,14 @@ export interface PointType {
   y: string | number
   label: 1 | -1
   bColor?: string
+  bias: number
 }
 
-export interface StyledPoint extends PointType {
+export interface StyledPoint extends Omit<PointType, 'bias'> {
   bColor: string
 }
 
-const Point: FunctionComponent<PointType> = ({ x, y, bColor, label }) => (
+const Point: FunctionComponent<Omit<PointType, 'bias'>> = ({ x, y, bColor, label }) => (
   <P x={x} y={y} bColor={bColor as string} label={label} />
 )
 

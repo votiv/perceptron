@@ -12,7 +12,7 @@ export const DIVIDER = .5
 
 const Plane = () => {
   const [bColor, setBColor] = useState<string[]>([])
-  const [train, guess] = perceptron()
+  const [train, guess] = useMemo(() => perceptron(), [])
   const pts = useMemo(() => points(50, DIVIDER), [])
 
   const makePoints = useCallback((point: PointType, index: number) => {
@@ -30,12 +30,15 @@ const Plane = () => {
     )
   }, [bColor])
 
+  /**
+   * Train the perceptron on click
+   */
   const clickToTrain = useCallback(() => {
     const guessed: number[] = []
 
     pts.forEach((pt) => {
-      train(Array.from([pt.x as number, pt.y as number]), pt.label)
-      guessed.push(guess(Array.from([pt.x as number, pt.y as number])))
+      guessed.push(guess(Array.from([pt.x as number, pt.y as number, pt.bias])))
+      train(Array.from([pt.x as number, pt.y as number, pt.bias]), pt.label)
     })
 
     /**

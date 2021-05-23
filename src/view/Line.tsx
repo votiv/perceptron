@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import { PointType } from './Point'
 
-interface LineType extends Omit<PointType, 'label'> {}
+interface LineType extends Omit<PointType, 'label' | 'bias'> {}
 
 const Line: FunctionComponent<LineType> = ({ x, y }) => (
   <L x={x} y={y} bColor="" />
