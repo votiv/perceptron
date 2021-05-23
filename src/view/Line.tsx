@@ -3,11 +3,13 @@ import styled from 'styled-components'
 
 import { PointType } from './Point'
 
-const Line: FunctionComponent<PointType> = ({ x, y }) => (
-  <L x={x} y={y} />
+interface LineType extends Omit<PointType, 'label'> {}
+
+const Line: FunctionComponent<LineType> = ({ x, y }) => (
+  <L x={x} y={y} bColor="" />
 )
 
-const L = styled.div<PointType>`
+const L = styled.div<LineType>`
   position: absolute;
   top: ${({ y }) => y}px;
   left: ${({ x }) => x}px;
