@@ -1,5 +1,3 @@
-import { useMemo } from 'react'
-
 import { randomInRange } from './randomInRange'
 
 type TrainFunctionType = (inputs: Array<number>, target: number) => void
@@ -36,8 +34,7 @@ export const perceptron: () => [train: TrainFunctionType, guess: GuessFunctionTy
     const g = guess(inputs)
     const error = target - g
 
-    weights =weights.map((w, i) => w + learningRate * error * inputs[i])
-    console.log('pprec weifths', weights)
+    weights = weights.map((w, i) => w + learningRate * error * inputs[i])
   }
 
   /**

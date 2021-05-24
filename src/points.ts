@@ -1,6 +1,13 @@
-import { PointType } from './Point'
-import { randomInRange } from '../randomInRange'
-import { lineFn } from '../App'
+import { randomInRange } from './randomInRange'
+import { lineFn } from './App'
+
+export interface PointType {
+  x: number
+  y: number
+  label: 1 | -1
+  bColor?: string
+  bias: number
+}
 
 /**
  * Generate an array of points of num length

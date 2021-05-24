@@ -2,7 +2,7 @@ import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Stage, Layer, Line, Circle, Rect } from 'react-konva'
 
 import { GlobalStyles } from './globalStyles/GlobalStyles'
-import { points } from './view/points'
+import { points } from './points'
 import { perceptron } from './perceptron'
 import styled from 'styled-components'
 
@@ -22,8 +22,14 @@ const App = () => {
   const [approxPoints, setApproxPoints] = useState<number[]>([])
   const [colors, setColors] = useState<string[]>([])
 
+  const dotRefs = useRef<any>([])
+
+  useEffect(() => {
+    dotRefs.current = dotRefs.current.slice(0, pts.length)
+  }, [pts])
+
   // Formula is weights[0]*x + weights[1]*y + weights[2] = 0
-  const countApproxPoints = () => {
+  const countApproxPoints = useCallback(() => {
     const w = getWeights()
 
     const x1 = XMIN
@@ -32,7 +38,7 @@ const App = () => {
     const y2 = (-w[2] - w[0] * x2) / w[1]
 
     setApproxPoints([x1, y1, x2, y2])
-  }
+  }, [getWeights])
 
   const clickToTrain = useCallback(() => {
     train([pts[count.current].x, pts[count.current].y, pts[count.current].bias], pts[count.current].label)
@@ -40,19 +46,25 @@ const App = () => {
 
     countApproxPoints()
 
-    for (let i = 0; i < count.current; i++) {
+    // for (let i = 0; i < count.current; i++) {
 
       let g = guess([pts[count.current].x, pts[count.current].y, pts[count.current].bias])
+
+      console.log('what is guess, baby', g)
+
       setColors(prevColors => [
         ...prevColors,
         g > 0 ? '#189e3c' : '#e60e35'
       ])
+
+      dotRefs.current[count.current].stroke(colors[count.current])
+
       /*if (g > 0) noFill()
 
       let x = map(training[i].input[0], xmin, xmax, 0, width)
       let y = map(training[i].input[1], ymin, ymax, height, 0)*/
-    }
-  }, [count, pts, train, guess, countApproxPoints])
+    // }
+  }, [count, pts, train, guess, countApproxPoints, dotRefs, colors])
 
   /*useEffect(() => {
     if (count.current === 49) return
@@ -73,12 +85,13 @@ const App = () => {
             pts.map((pt, i) => (
               <Circle
                 key={`${pt.x}-${pt.y}-${i}`}
+                ref={el => dotRefs.current[i] = el}
                 x={pt.x}
                 y={pt.y}
                 fill={
                   colors.length === 0
                     ? pt.label === 1 ? 'black' : 'white'
-                    : colors[i]
+                    : colors[i]/* || pt.label === 1 ? 'black' : 'white'*/
                 }
                 radius={8}
                 stroke="black"
