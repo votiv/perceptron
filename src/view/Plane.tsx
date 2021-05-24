@@ -36,16 +36,10 @@ const Plane = () => {
   const clickToTrain = useCallback(() => {
     const guessed: number[] = []
 
-    pts.forEach((pt) => {
+    pts.forEach((pt, i) => {
       guessed.push(guess(Array.from([pt.x as number, pt.y as number, pt.bias])))
       train(Array.from([pt.x as number, pt.y as number, pt.bias]), pt.label)
-    })
 
-    /**
-     * Based on the training the point got (their weights were adjusted), we color them green (correctly categorized)
-     * or red (still training)
-     */
-    pts.forEach((pt, i) => {
       if (pt.label === guessed[i]) {
         setBColor(prevState => [...prevState, '#189e3c'])
       } else {
@@ -58,7 +52,7 @@ const Plane = () => {
     <>
       <Pl>
         {pts.map(makePoints)}
-        <Line y={SPREAD * DIVIDER} x={0} />
+        <Line top={SPREAD * DIVIDER} left={0} />
       </Pl>
 
       <B onClick={clickToTrain}>Click to train</B>

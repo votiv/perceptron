@@ -1,18 +1,25 @@
 import React, { FunctionComponent } from 'react'
 import styled from 'styled-components'
 
-import { PointType } from './Point'
+interface LineType {
+  top: number
+  left: number
+}
 
-interface LineType extends Omit<PointType, 'label' | 'bias'> {}
-
-const Line: FunctionComponent<LineType> = ({ x, y }) => (
-  <L x={x} y={y} bColor="" />
+/**
+ * Draw horizontal line
+ * @param left
+ * @param top
+ * @constructor
+ */
+const Line: FunctionComponent<LineType> = ({ left, top }) => (
+  <L left={left} top={top} />
 )
 
 const L = styled.div<LineType>`
   position: absolute;
-  top: ${({ y }) => y}px;
-  left: ${({ x }) => x}px;
+  top: ${({ top }) => top}px;
+  left: ${({ left }) => left}px;
   border: 1px solid black;
   width: 33rem;
   margin-left: -.5rem;

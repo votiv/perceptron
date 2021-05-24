@@ -4,7 +4,7 @@ type TrainFunctionType = (inputs: Array<number>, target: number) => void
 type GuessFunctionType = (inputs: Array<number>) => 1 | -1
 
 /**
- * Receive inputs and compute a "guess"
+ * Receive inputs, compute a "guess" and train
  * The algorithm for calculating the change in weights:
  *      delta Weights = Error * Input * Learning rate
  */
@@ -20,10 +20,10 @@ export const perceptron: () => [train: TrainFunctionType, guess: GuessFunctionTy
   const learningRate = .001
 
   /**
-   * Sums up the weighted inputs and applies the activation function
+   * Sums up the weighted inputs and applies the activation function (also called feed forward)
    * @param inputs
    */
-  const guess: GuessFunctionType = inputs => sign(inputs.reduce((acc, cur, i) => acc + cur * weights[i], 0))
+  const guess: GuessFunctionType = inputs => sign(inputs.reduce((sum, cur, i) => sum + cur * weights[i], 0))
 
   /**
    * Adjust, tweak the weights based on the calculated error and learning rate
@@ -42,6 +42,6 @@ export const perceptron: () => [train: TrainFunctionType, guess: GuessFunctionTy
 
 /**
  * The activation function
- * @param n
+ * @param sum
  */
-const sign: (n: number) => 1 | -1 = n => n > 0 ? 1 : -1
+const sign: (sum: number) => 1 | -1 = sum => sum > 0 ? 1 : -1

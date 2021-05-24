@@ -1,5 +1,5 @@
 /**
- * Return a random float in the range of [min, max)
+ * Return a random float in the range of [min, max) rounded to two decimals
  * @param min
  * @param max
  */
