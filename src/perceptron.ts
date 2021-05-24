@@ -1,3 +1,5 @@
+import { useMemo } from 'react'
+
 import { randomInRange } from './randomInRange'
 
 type TrainFunctionType = (inputs: Array<number>, target: number) => void
@@ -8,7 +10,7 @@ type GuessFunctionType = (inputs: Array<number>) => 1 | -1
  * The algorithm for calculating the change in weights:
  *      delta Weights = Error * Input * Learning rate
  */
-export const perceptron: () => [train: TrainFunctionType, guess: GuessFunctionType] = () => {
+export const perceptron: () => [train: TrainFunctionType, guess: GuessFunctionType, getWeights: () => Array<number>] = () => {
   /**
    * Generate random weights from [-1, 1) range
    */
@@ -17,7 +19,7 @@ export const perceptron: () => [train: TrainFunctionType, guess: GuessFunctionTy
   /**
    * Learning rate
    */
-  const learningRate = .001
+  const learningRate = .01
 
   /**
    * Sums up the weighted inputs and applies the activation function (also called feed forward)
@@ -34,10 +36,16 @@ export const perceptron: () => [train: TrainFunctionType, guess: GuessFunctionTy
     const g = guess(inputs)
     const error = target - g
 
-    weights = weights.map((w, i) => w + (Math.round((error * inputs[i] * learningRate) * 100) / 100))
+    weights =weights.map((w, i) => w + learningRate * error * inputs[i])
+    console.log('pprec weifths', weights)
   }
 
-  return [train, guess]
+  /**
+   * Return the current weights
+   */
+  const getWeights = () => weights
+
+  return [train, guess, getWeights]
 }
 
 /**

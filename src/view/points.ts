@@ -1,12 +1,12 @@
 import { PointType } from './Point'
 import { randomInRange } from '../randomInRange'
+import { lineFn } from '../App'
 
 /**
  * Generate an array of points of num length
  * @param num
- * @param divider
  */
-export const points: (num: number, divider: number) => PointType[] = (num, divider) => {
+export const points: (num: number) => PointType[] = (num) => {
   const xCoords = [...Array<number>(num)].map(() => randomInRange())
   const yCoords = [...Array<number>(num)].map(() => randomInRange())
 
@@ -18,6 +18,6 @@ export const points: (num: number, divider: number) => PointType[] = (num, divid
     }))
     .map(p => ({
       ...p,
-      label: p.y >= divider ? 1 : -1 // calculate the known "answer"
+      label: p.y < lineFn(p.x) ? -1 : 1 // calculate the known "answer"
     }))
 }
